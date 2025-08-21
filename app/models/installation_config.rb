@@ -19,7 +19,6 @@ class InstallationConfig < ApplicationRecord
   # https://discuss.rubyonrails.org/t/cve-2022-32224-possible-rce-escalation-bug-with-serialized-columns-in-active-record/81017
   # FIX ME : fixes breakage of installation config. we need to migrate.
   # Fix configuration in application.rb
-  serialize :serialized_value, coder: YAML, type: ActiveSupport::HashWithIndifferentAccess
 
   before_validation :set_lock
   validates :name, presence: true
@@ -32,11 +31,9 @@ class InstallationConfig < ApplicationRecord
   after_commit :clear_cache
 
   def value
-    # This is an extra hack again cause of the YAML serialization, in case of new object initialization in super admin
-    # It was throwing error as the default value of column '{}' was failing in deserialization.
-    return {}.with_indifferent_access if new_record? && @attributes['serialized_value']&.value_before_type_cast == '{}'
+    return {} if new_record? && serialized_value.blank?
 
-    serialized_value[:value]
+    serialized_value&.dig(:value) || serialized_value&.dig('value')
   end
 
   def value=(value_to_assigned)
