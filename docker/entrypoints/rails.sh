@@ -30,5 +30,16 @@ do
   sleep 2;
 done
 
+# Check if the database exists, and create it if it doesn't
+echo "Checking if database exists..."
+if ! bundle exec rails db:version > /dev/null 2>&1; then
+  echo "Database does not exist. Creating database..."
+  bundle exec rails db:create
+fi
+
+# Run database migrations
+echo "Running database migrations..."
+bundle exec rails db:migrate
+
 # Execute the main process of the container
 exec "$@"
