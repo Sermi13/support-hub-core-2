@@ -144,4 +144,6 @@ COPY --from=pre-builder /app /app
 
 WORKDIR /app
 
+ENTRYPOINT ['docker/entrypoints/rails.sh']
+
 EXPOSE 3000
