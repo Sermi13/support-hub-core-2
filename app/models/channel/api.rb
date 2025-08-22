@@ -7,10 +7,12 @@
 #  hmac_mandatory        :boolean          default(FALSE)
 #  hmac_token            :string
 #  identifier            :string
+#  integration_type      :string
 #  webhook_url           :string
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  account_id            :integer          not null
+#  integration_id        :string
 #
 # Indexes
 #
@@ -22,7 +24,7 @@ class Channel::Api < ApplicationRecord
   include Channelable
 
   self.table_name = 'channel_api'
-  EDITABLE_ATTRS = [:webhook_url, :hmac_mandatory, { additional_attributes: {} }].freeze
+  EDITABLE_ATTRS = [:webhook_url, :hmac_mandatory, { additional_attributes: {} }, :integration_type, :integration_id].freeze
 
   has_secure_token :identifier
   has_secure_token :hmac_token

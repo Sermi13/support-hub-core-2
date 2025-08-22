@@ -78,6 +78,12 @@ Rails.application.routes.draw do
               post :filter
             end
           end
+          resources :evolution, only: [:create, :show] do
+            collection do
+              post :connect
+              post :disconnect
+            end
+          end
           resources :assignable_agents, only: [:index]
           resource :audit_logs, only: [:show]
           resources :callbacks, only: [] do

@@ -10,6 +10,7 @@ import InboxChannel from './InboxChannels.vue';
 import ChannelList from './ChannelList.vue';
 import AddAgents from './AddAgents.vue';
 import FinishSetup from './FinishSetup.vue';
+import EvolutionWizard from './evolution/EvolutionWizard.vue';
 
 export default {
   routes: [
@@ -92,6 +93,14 @@ export default {
               component: AddAgents,
             },
           ],
+        },
+        {
+          path: 'new-evolution',
+          name: 'settings_inbox_new_evolution',
+          component: EvolutionWizard,
+          meta: {
+            permissions: ['administrator'],
+          },
         },
         {
           path: ':inboxId',

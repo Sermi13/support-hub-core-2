@@ -28,6 +28,7 @@ import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { WIDGET_BUILDER_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
+import EvolutionConfig from './evolution/EvolutionConfig.vue';
 
 export default {
   components: {
@@ -51,6 +52,7 @@ export default {
     DuplicateInboxBanner,
     Editor,
     Avatar,
+    EvolutionConfig,
   },
   mixins: [inboxMixin],
   setup() {
@@ -153,6 +155,16 @@ export default {
           {
             key: 'configuration',
             name: this.$t('INBOX_MGMT.TABS.CONFIGURATION'),
+          },
+        ];
+      }
+
+      if (this.inbox.integration_type === 'Evolution') {
+        visibleToAllChannelTabs = [
+          ...visibleToAllChannelTabs,
+          {
+            key: 'configuration_evolution',
+            name: 'WhatsApp',
           },
         ];
       }
@@ -847,6 +859,9 @@ export default {
       </div>
       <div v-if="selectedTabKey === 'botConfiguration'">
         <BotConfiguration :inbox="inbox" />
+      </div>
+      <div v-if="selectedTabKey === 'configuration_evolution'" class="m-6">
+        <EvolutionConfig :inbox="inbox" />
       </div>
     </section>
   </div>

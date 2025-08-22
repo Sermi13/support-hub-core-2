@@ -102,6 +102,12 @@ if resource.email?
   end
 end
 
+## Evolution Channel Attributes
+if resource.api?
+  json.integration_type resource.channel.try(:integration_type)
+  json.integration_id resource.channel.try(:integration_id)
+end
+
 ## API Channel Attributes
 if resource.api?
   json.hmac_token resource.channel.try(:hmac_token) if Current.account_user&.administrator?

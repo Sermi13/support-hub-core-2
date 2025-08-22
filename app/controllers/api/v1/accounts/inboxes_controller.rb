@@ -65,8 +65,12 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def destroy
+    delete_evolution_instance if @inbox.channel.respond_to?(:integration_type) && @inbox.channel.integration_type == 'Evolution'
     ::DeleteObjectJob.perform_later(@inbox, Current.user, request.ip) if @inbox.present?
     render status: :ok, json: { message: I18n.t('messages.inbox_deletetion_response') }
+  rescue StandardError => e
+    Rails.logger.error "[DELETE INBOX] Erro completo no processo: #{e.message}"
+    render status: :internal_server_error, json: { message: e.message }
   end
 
   def sync_templates
@@ -184,6 +188,19 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     else
       []
     end
+  end
+
+  def delete_evolution_instance
+    response = HTTParty.delete(
+      "#{ENV.fetch('EVOLUTION_URL')}/instance/delete/#{@inbox.channel.integration_id}",
+      headers: {
+        'apikey' => ENV.fetch('EVOLUTION_TOKEN')
+      }
+    )
+    return if response.success?
+
+    Rails.logger.error "[EVOLUTION][DELETE] Falha ao deletar instância: #{response.body}"
+    raise 'Falha na comunicação com o serviço Evolution'
   end
 end
 

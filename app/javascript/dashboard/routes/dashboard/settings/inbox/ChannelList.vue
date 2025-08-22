@@ -25,6 +25,9 @@ export default {
     account() {
       return this.$store.getters['accounts/getAccount'](this.accountId);
     },
+    evolutionChannel() {
+      return { key: 'whatsapp', name: 'WhatsApp não Oficial' };
+    },
     channelList() {
       const { apiChannelName, apiChannelThumbnail } = this.globalConfig;
       return [
@@ -63,6 +66,9 @@ export default {
       };
       router.push({ name: 'settings_inboxes_page_channel', params });
     },
+    initChannelAuthEvolution() {
+      router.push({ name: 'settings_inbox_new_evolution' });
+    },
   },
 };
 </script>
@@ -85,6 +91,11 @@ export default {
         :channel="channel"
         :enabled-features="enabledFeatures"
         @channel-item-click="initChannelAuth"
+      />
+      <ChannelItem
+        :channel="evolutionChannel"
+        :enabled-features="enabledFeatures"
+        @channel-item-click="initChannelAuthEvolution"
       />
     </div>
   </div>
