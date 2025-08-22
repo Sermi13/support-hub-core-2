@@ -143,5 +143,5 @@ COPY --from=pre-builder /app /app
 
 
 WORKDIR /app
-CMD ["bundle exec sidekiq -C config/sidekiq.yml"]
+CMD ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
 EXPOSE 3000
