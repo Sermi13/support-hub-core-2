@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class SuperAdmin::Devise::SessionsController < Devise::SessionsController
+  before_action :set_global_config
   def new
     self.resource = resource_class.new(sign_in_params)
   end
@@ -17,6 +18,13 @@ class SuperAdmin::Devise::SessionsController < Devise::SessionsController
     sign_out
     flash.discard
     redirect_to '/'
+  end
+
+  def set_global_config
+    @global_config = GlobalConfig.get(
+      'LOGO_THUMBNAIL',
+      'INSTALLATION_NAME'
+    )
   end
 
   private

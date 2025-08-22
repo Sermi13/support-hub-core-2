@@ -12,12 +12,20 @@ class SuperAdmin::ApplicationController < Administrate::ApplicationController
   helper_method :render_vue_component, :settings_open?, :settings_pages
   # authenticiation done via devise : SuperAdmin Model
   before_action :authenticate_super_admin!
+  before_action :set_global_config
 
   # Override this value to specify the number of elements to display at a time
   # on index pages. Defaults to 20.
   # def records_per_page
   #   params[:per_page] || 20
   # end
+  #
+  def set_global_config
+    @global_config = GlobalConfig.get(
+      'LOGO_THUMBNAIL',
+      'INSTALLATION_NAME'
+    )
+  end
 
   def order
     @order ||= Administrate::Order.new(
