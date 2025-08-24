@@ -35,6 +35,9 @@ export default {
         conversation: this.currentChat,
         contact: this.$store.getters['contacts/getContact'](this.contactId),
         currentAgent: this.currentAgent,
+        accountId: this.$store.getters.getCurrentAccountId,
+        userToken: this.$store.getters.getCurrentUser.access_token,
+        url: window.location.origin,
       };
     },
     contactId() {
