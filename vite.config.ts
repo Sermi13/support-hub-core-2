@@ -45,7 +45,7 @@ if (isLibraryMode) {
 export default defineConfig({
   plugins: plugins,
   server: {
-    allowedHosts: ['.up.railway.app', '.railway.app', 'localhost'],
+    allowedHosts: true,
   },
   build: {
     rollupOptions: {
