@@ -45,7 +45,10 @@ if (isLibraryMode) {
 export default defineConfig({
   plugins: plugins,
   server: {
-    allowedHosts: true,
+    allowedHosts: [
+      'kanban-app-support-hub-production.up.railway.app',
+      '.localhost',
+    ],
   },
   build: {
     rollupOptions: {
