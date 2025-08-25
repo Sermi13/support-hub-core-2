@@ -46,7 +46,7 @@ export default defineConfig(config => {
   return mergeConfig(config, {
     plugins: plugins,
     server: {
-      allowedHosts: 'all', // Força permitir todos os hosts
+      allowedHosts: true, // Força permitir todos os hosts
     },
     build: {
       rollupOptions: {
